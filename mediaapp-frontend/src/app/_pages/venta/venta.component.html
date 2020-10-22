@@ -1,0 +1,70 @@
+<mat-toolbar>Registro de Venta</mat-toolbar>
+
+<form class="example-container" [formGroup]="form" (ngSubmit)="aceptar()"  #consultaForm="ngForm">
+
+    <mat-form-field>
+        <input type="text" placeholder="Persona" matInput [matAutocomplete]="autoPersona" [formControl]="myControlPersona" formControlName="persona">
+    </mat-form-field>
+    
+    <br>
+    
+    <mat-autocomplete #autoPersona="matAutocomplete" [displayWith]="mostrarPersona" (optionSelected)="seleccionarPersona($event)">
+        <mat-option *ngFor="let item of personasFiltradas | async " [value]="item">
+            {{item.nombres}} {{item.apellidos}}
+        </mat-option>
+    </mat-autocomplete>
+
+    <br>
+
+    <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Seleccionar fecha" [max]="maxFecha" formControlName="fecha">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field>
+        <input placeholder="Importe" matInput type="number" formControlName="importe">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <input type="text" placeholder="Producto" matInput [matAutocomplete]="autoProducto" [formControl]="myControlProducto" formControlName="producto">
+    </mat-form-field>
+
+    <br>
+
+    <mat-autocomplete #autoProducto="matAutocomplete" [displayWith]="mostrarProducto" (optionSelected)="seleccionarProducto($event)">
+        <mat-option *ngFor="let item of productosFiltrados | async " [value]="item">
+            {{item.nombre}} {{item.marca}}
+        </mat-option>
+    </mat-autocomplete>
+    
+    <br>
+
+    <div >
+      <mat-form-field >
+        <input placeholder="Cantidad" matInput type="number" formControlName="cantidad">
+      </mat-form-field>      
+    </div>
+
+    <button mat-raised-button color="primary" type="button" (click)="agregarDetalle()">Agregar producto</button>
+
+    <br>
+
+    <mat-expansion-panel *ngFor="let item of detalleVenta; let i=index">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{i+1}} {{item.producto.nombre}} {{item.producto.marca}}
+        </mat-panel-title>
+        <button mat-raised-button color="warn" type="button" (click)="removerDetalle(i)">Remover</button>
+      </mat-expansion-panel-header>
+      <mat-form-field>
+        <textarea matInput placeholder="Cantidad" value="{{item.cantidad}}"></textarea>
+      </mat-form-field>
+    </mat-expansion-panel>
+  
+    <button mat-raised-button color="primary" type="submit"  [disabled]="habilitarRegistrar()">Guardar Venta</button>    
+
+    <button mat-raised-button color="secondary" type="button" (click)="limpiar()" >Reinicio</button>
+</form>

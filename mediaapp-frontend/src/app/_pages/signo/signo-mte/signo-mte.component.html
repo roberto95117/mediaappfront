@@ -1,0 +1,48 @@
+<div [hidden]="!agregar">
+    <mat-card>Ingreso de Signos del Paciente</mat-card>
+</div>
+<div [hidden]="agregar">
+    <mat-card>Actualizar Signos del Paciente  <b>{{pacienteSeleccionado.nombres}} {{pacienteSeleccionado.apellidos}}</b> </mat-card>
+</div>
+
+<form class="example-container" [formGroup]="form" #frmSigno="ngForm" (ngSubmit)="operar()">
+    <div [hidden]="true">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="ID"  formControlName="idSigno">
+        </mat-form-field>
+    </div>
+    <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Seleccionar fecha" [max]="maxFecha" formControlName="fecha">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">        
+        <input matInput placeholder="Pulso" minlength="2" required formControlName="pulso">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">        
+        <input matInput placeholder="Ritmo Respiratorio" minlength="2" required formControlName="ritmoRespiratorio">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">        
+        <input matInput placeholder="Temperatura" minlength="2" required formControlName="temperatura">
+    </mat-form-field>
+    <div [hidden]="!agregar">
+        <mat-form-field >
+            <input type="text" placeholder="Paciente" matInput [matAutocomplete]="autoPaciente" [formControl]="myControlPaciente" formControlName="paciente">
+        </mat-form-field>
+        <mat-autocomplete   #autoPaciente="matAutocomplete" [displayWith]="mostrarPaciente" (optionSelected)="seleccionarPaciente($event)">
+            <mat-option *ngFor="let item of pacientesFiltrados | async " [value]="item">
+                {{item.nombres}} {{item.apellidos}}
+            </mat-option>
+        </mat-autocomplete>    
+        <button mat-button color="accent" (click)="nuevoPaciente()" type="button" ><mat-icon>add</mat-icon>Nuevo paciente</button>
+    </div>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="frmSigno.invalid">
+        <mat-icon>done</mat-icon>
+        <span>Aceptar</span>
+    </button>
+    <button mat-raised-button color="accent" routerLink='/signos' type="button">
+        <mat-icon>close</mat-icon>
+        <span>Cancelar</span>
+    </button>
+</form>

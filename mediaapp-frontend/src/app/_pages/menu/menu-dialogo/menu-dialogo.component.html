@@ -1,0 +1,25 @@
+<mat-card>Datos del Menu</mat-card>
+<br>
+<form class="example-container" [formGroup]="form" #frmPaciente="ngForm" (ngSubmit)="operar()">
+    <br>
+    <mat-form-field class="example-full-width">        
+        <input matInput placeholder="Icono"  required formControlName="icono">
+    </mat-form-field>
+    <br>
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Nombre" required formControlName="nombre">
+    </mat-form-field>
+    <br>
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="URL" required formControlName="url">
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" type="submit" [disabled]="frmPaciente.invalid">
+        <mat-icon>done</mat-icon>
+        <span>Aceptar</span>
+    </button>
+    <button mat-raised-button color="accent" (click)="cancelar()" type="button">
+        <mat-icon>close</mat-icon>
+        <span>Cancelar</span>
+    </button>
+</form>
